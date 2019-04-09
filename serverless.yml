@@ -1,0 +1,52 @@
+# Welcome to serverless. Read the docs
+# https://serverless.com/framework/docs/
+
+# Serverless.yml is the configuration the CLI
+# uses to deploy your code to your provider of choice
+
+# The `service` block is the name of the service
+service: serverless-core-service-lambda
+
+# The `provider` block defines where your service will be deployed
+provider:
+  name: aws
+  runtime: nodejs6.10
+
+custom:
+  alerts:
+    stages: # Optionally - select which stages to deploy alarms to 
+      - staging
+    dashboards: true
+    topics: 
+      alarm: 
+        topic: ${self:service}-${opt:stage}-alerts-alarm
+        notifications:
+           - protocol: email
+             endpoint: kiran.chanda@spglobal.com
+           - protocol: LAMBDA
+             endpoint: arn:aws:lambda:us-east-1:086903667957:function:testAlarmIsWorkingOrNot
+      # definitions:  # these defaults are merged with your definitions
+      #   #  functionErrors:
+      #   # #   period: 300 # override period
+    alarms:
+      - functionErrors
+      - functionThrottles
+
+# The `functions` block defines what code to deploy
+functions:
+  helloWorld:
+    handler: handler.helloWorld
+    tags: 
+      techonology: helloworld
+      test: 
+    # The `events` block defines how to trigger the handler.helloWorld code
+    events:
+      - http:
+          path: hello-world
+          method: get
+          cors: true
+    alarms: 
+      - functionErrors
+
+plugins:
+  - serverless-plugin-aws-alerts
