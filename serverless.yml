@@ -22,9 +22,9 @@ custom:
         topic: ${self:service}-${opt:stage}-alerts-alarm
         notifications:
            - protocol: email
-             endpoint: kiran.chanda@spglobal.com
+             endpoint: xxxxx@gmail.com
            - protocol: LAMBDA
-             endpoint: arn:aws:lambda:us-east-1:086903667957:function:testAlarmIsWorkingOrNot
+             endpoint: arn:aws:lambda:us-east-1:*******:function:testAlarmIsWorkingOrNot
       # definitions:  # these defaults are merged with your definitions
       #   #  functionErrors:
       #   # #   period: 300 # override period
